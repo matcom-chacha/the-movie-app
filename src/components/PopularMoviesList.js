@@ -7,6 +7,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import ListSubheader from "@mui/material/ListSubheader";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
+import { Link } from "react-router-dom";
 
 const PopularMoviesList = () => {
   const popularMovies = useSelector((state) => state.movies.popular);
@@ -22,7 +23,7 @@ const PopularMoviesList = () => {
         <ListSubheader component="div">Popular Movies</ListSubheader>
       </ImageListItem>
       {popularMovies.map((movie) => (
-        <ImageListItem key={movie.ids}>
+        <ImageListItem key={movie.id}>
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?w=248&fit=crop&auto=format`}
             srcSet={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?w=248&fit=crop&auto=format&dpr=2 2x`}
@@ -36,6 +37,8 @@ const PopularMoviesList = () => {
               <IconButton
                 sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                 aria-label={`info about ${movie.title}`}
+                component={Link}
+                to={`/movies/${movie.id}`}
               >
                 <InfoIcon />
               </IconButton>
