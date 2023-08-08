@@ -4,10 +4,12 @@ import { Provider } from "react-redux";
 import store from "../redux/store";
 import PopularMoviesList from "./PopularMoviesList";
 import MovieDetails from "./MovieDetails";
+import NavBar from "./NavBar";
 
 const App = () => {
   return (
     <Provider store={store}>
+      <NavBar />
       <Router>
         <Routes>
           <Route exact path="/" element={<PopularMoviesList />} />
