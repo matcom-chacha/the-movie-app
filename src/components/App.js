@@ -5,6 +5,7 @@ import store from "../redux/store";
 import PopularMoviesList from "./PopularMoviesList";
 import MovieDetails from "./MovieDetails";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/movies/:movieId" element={<MovieDetails />} />
         </Routes>
       </Router>
+      <Footer />
     </Provider>
   );
 };
