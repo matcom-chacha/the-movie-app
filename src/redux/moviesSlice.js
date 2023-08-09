@@ -38,10 +38,15 @@ const moviesSlice = createSlice({
     pages: {},
     details: [],
     moviesDetails: {},
+    currentPage: 1,
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPopularMovies.pending, (state) => {
@@ -72,3 +77,5 @@ const moviesSlice = createSlice({
 });
 
 export default moviesSlice.reducer;
+
+export const { setCurrentPage } = moviesSlice.actions;

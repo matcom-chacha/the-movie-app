@@ -8,18 +8,19 @@ import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
+import { setCurrentPage } from "../redux/moviesSlice";
 
 const PopularMoviesList = () => {
-  const [page, setPage] = React.useState(1);
+  const currentPage = useSelector((state) => state.movies.currentPage);
   const popularMovies = useSelector((state) => state.movies.popular);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPopularMovies(page));
-  }, [dispatch, page]);
+    dispatch(fetchPopularMovies(currentPage));
+  }, [dispatch, currentPage]);
 
   const handlePageChange = (event, value) => {
-    setPage(value);
+    dispatch(setCurrentPage(value));
   };
 
   return (
@@ -60,7 +61,11 @@ const PopularMoviesList = () => {
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
       >
-        <Pagination count={10} page={page} onChange={handlePageChange} />
+        <Pagination
+          count={500}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </div>
     </div>
   );
