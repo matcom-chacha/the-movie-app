@@ -5,9 +5,13 @@ const API_KEY = process.env.REACT_APP_TMD_API_KEY;
 
 export const fetchPopularMovies = createAsyncThunk(
   "movies/fetchPopular",
-  async () => {
+  async (page, { getState }) => {
+    const pages = getState().movies.pages;
+    if (pages[page]) {
+      return pages[page];
+    }
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`
     );
     return response.data.results;
   }
@@ -15,7 +19,7 @@ export const fetchPopularMovies = createAsyncThunk(
 
 const moviesSlice = createSlice({
   name: "movies",
-  initialState: { popular: [], status: "idle", error: null },
+  initialState: { popular: [], pages: {}, status: "idle", error: null },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -26,6 +30,8 @@ const moviesSlice = createSlice({
         state.status = "succeeded";
         // Add fetched movies to the array
         state.popular = action.payload;
+        // Store the fetched page as action.meta.arg resturns the number
+        state.pages[action.meta.arg] = action.payload;
       })
       .addCase(fetchPopularMovies.rejected, (state, action) => {
         state.status = "failed";
