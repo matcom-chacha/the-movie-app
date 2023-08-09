@@ -9,11 +9,28 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import { setCurrentPage } from "../redux/moviesSlice";
+import { useMediaQuery } from "@mui/material";
+import { Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { blueGrey } from "@material-ui/core/colors";
+
+const useStyles = makeStyles({
+  header: {
+    textAlign: "center",
+    fontSize: "1.5rem",
+    color: blueGrey[900],
+    fontWeight: "bold",
+    margin: "10px 0",
+  },
+});
 
 const PopularMoviesList = () => {
   const currentPage = useSelector((state) => state.movies.currentPage);
   const popularMovies = useSelector((state) => state.movies.popular);
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMedium = useMediaQuery("(max-width: 960px)");
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(fetchPopularMovies(currentPage));
@@ -25,7 +42,22 @@ const PopularMoviesList = () => {
 
   return (
     <div>
-      <ImageList gap={16} cols={4} sx={{ margin: "0 auto", maxWidth: 1200 }}>
+      <Typography variant="h2" className={classes.header}>
+        Most Popular Movies
+      </Typography>
+
+      <ImageList
+        gap={16}
+        cols={isMobile ? 2 : isMedium ? 3 : 4}
+        sx={{
+          margin: "0 auto",
+          maxWidth: 1200,
+          marginTop: isMobile ? "16px" : 0,
+          marginBottom: isMobile ? "16px" : 0,
+          marginLeft: isMedium || isMobile ? "16px" : "auto",
+          marginRight: isMedium || isMobile ? "16px" : "auto",
+        }}
+      >
         {popularMovies.map((movie) => (
           <ImageListItem
             key={movie.id}

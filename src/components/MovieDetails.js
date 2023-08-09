@@ -115,12 +115,20 @@ const MovieDetails = () => {
                 />
               ))}
           </div>
-          <Typography variant="h6" className={classes.subtitle}>
-            Homepage
-          </Typography>
-          <Link href={movie.homepage} target="_blank" rel="noopener noreferrer">
-            {movie.homepage}
-          </Link>
+          {movie.homepage && (
+            <>
+              <Typography variant="h6" className={classes.subtitle}>
+                Homepage
+              </Typography>
+              <Link
+                href={movie.homepage}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {movie.homepage}
+              </Link>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
