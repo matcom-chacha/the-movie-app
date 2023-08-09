@@ -13,6 +13,7 @@ import { useMediaQuery } from "@mui/material";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { blueGrey } from "@material-ui/core/colors";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles({
   header: {
@@ -31,6 +32,7 @@ const PopularMoviesList = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isMedium = useMediaQuery("(max-width: 960px)");
   const classes = useStyles();
+  const status = useSelector((state) => state.movies.status);
 
   useEffect(() => {
     dispatch(fetchPopularMovies(currentPage));
@@ -46,59 +48,80 @@ const PopularMoviesList = () => {
         Most Popular Movies
       </Typography>
 
-      <ImageList
-        gap={16}
-        cols={isMobile ? 2 : isMedium ? 3 : 4}
-        sx={{
-          margin: "0 auto",
-          maxWidth: 1200,
-          marginTop: isMobile ? "16px" : 0,
-          marginBottom: isMobile ? "16px" : 0,
-          marginLeft: isMedium || isMobile ? "16px" : "auto",
-          marginRight: isMedium || isMobile ? "16px" : "auto",
-        }}
-      >
-        {popularMovies.map((movie) => (
-          <ImageListItem
-            key={movie.id}
+      {/* Render the loading spinner conditionally based on the status */}
+
+      {status === "loading" ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <ImageList
+            gap={16}
+            cols={isMobile ? 2 : isMedium ? 3 : 4}
             sx={{
-              borderRadius: 5,
-              overflow: "hidden",
+              margin: "0 auto",
+              maxWidth: 1200,
+              marginTop: isMobile ? "16px" : 0,
+              marginBottom: isMobile ? "16px" : 0,
+              marginLeft: isMedium || isMobile ? "16px" : "auto",
+              marginRight: isMedium || isMobile ? "16px" : "auto",
             }}
           >
-            <img
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?w=248&fit=crop&auto=format`}
-              srcSet={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={movie.title}
-              loading="lazy"
-              style={{ width: "100%", height: "auto" }}
+            {popularMovies.map((movie) => (
+              <ImageListItem
+                key={movie.id}
+                sx={{
+                  borderRadius: 5,
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?w=248&fit=crop&auto=format`}
+                  srcSet={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={movie.title}
+                  loading="lazy"
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <ImageListItemBar
+                  title={movie.title}
+                  subtitle={movie.release_date}
+                  actionIcon={
+                    <IconButton
+                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                      aria-label={`info about ${movie.title}`}
+                      component={Link}
+                      to={`/movies/${movie.id}`}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            <Pagination
+              count={500}
+              page={currentPage}
+              onChange={handlePageChange}
             />
-            <ImageListItemBar
-              title={movie.title}
-              subtitle={movie.release_date}
-              actionIcon={
-                <IconButton
-                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                  aria-label={`info about ${movie.title}`}
-                  component={Link}
-                  to={`/movies/${movie.id}`}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
-      >
-        <Pagination
-          count={500}
-          page={currentPage}
-          onChange={handlePageChange}
-        />
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
