@@ -75,6 +75,7 @@ This project is licensed under the [MIT License](LICENSE).
 - [React](https://reactjs.org/)
 - [Material-UI](https://mui.com/)
 - [The Movie Database API](https://www.themoviedb.org/documentation/api)
+- [Flaticons](https://www.flaticon.com/free-icons/video)
 
 ## Contact
 
