@@ -26,7 +26,6 @@ const moviesSlice = createSlice({
         state.status = "succeeded";
         // Add fetched movies to the array
         state.popular = action.payload;
-        // state.popular = state.popular.concat(action.payload);
       })
       .addCase(fetchPopularMovies.rejected, (state, action) => {
         state.status = "failed";
