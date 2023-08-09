@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchMovieDetails } from "../redux/movieDetailsSlice";
+import { fetchMovieDetails } from "../redux/moviesSlice";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, Typography, Chip, Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const movie = useSelector((state) => state.movieDetails.details);
+  const movie = useSelector((state) => state.movies.details);
 
   const dispatch = useDispatch();
   const classes = useStyles();
