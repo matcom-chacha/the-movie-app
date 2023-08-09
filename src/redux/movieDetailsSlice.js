@@ -5,7 +5,11 @@ const API_KEY = process.env.REACT_APP_TMD_API_KEY;
 
 export const fetchMovieDetails = createAsyncThunk(
   "movies/fetchDetails",
-  async (movieId) => {
+  async (movieId, { getState }) => {
+    const moviesDetails = getState().movieDetails.moviesDetails;
+    if (moviesDetails[movieId]) {
+      return moviesDetails[movieId];
+    }
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
     );
@@ -15,7 +19,12 @@ export const fetchMovieDetails = createAsyncThunk(
 
 const movieSlice = createSlice({
   name: "movie",
-  initialState: { details: {}, status: "idle", error: null },
+  initialState: {
+    details: [],
+    moviesDetails: {},
+    status: "idle",
+    error: null,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -24,8 +33,10 @@ const movieSlice = createSlice({
       })
       .addCase(fetchMovieDetails.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // Update the details object with the fetched details
-        state.details[action.meta.arg] = action.payload;
+        // Set the details variable for the current movie
+        state.details = action.payload;
+        // Update the moviesDetails object with the fetched details of the specific movie for posteriour request
+        state.moviesDetails[action.meta.arg] = action.payload;
       })
       .addCase(fetchMovieDetails.rejected, (state, action) => {
         state.status = "failed";

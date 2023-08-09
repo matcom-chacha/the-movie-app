@@ -52,16 +52,14 @@ const useStyles = makeStyles((theme) => ({
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const movie = useSelector((state) => state.movieDetails.details[movieId]);
+  const movie = useSelector((state) => state.movieDetails.details);
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
   useEffect(() => {
-    if (!movie) {
-      dispatch(fetchMovieDetails(movieId));
-    }
-  }, [dispatch, movieId, movie]);
+    dispatch(fetchMovieDetails(movieId));
+  }, [dispatch, movieId]);
 
   if (!movie) return <Typography variant="h5">Movie Not found</Typography>;
 
@@ -95,25 +93,27 @@ const MovieDetails = () => {
             Genres
           </Typography>
           <div>
-            {movie.genres.map((genre) => (
-              <Chip
-                key={genre.id}
-                label={genre.name}
-                className={classes.chip}
-              />
-            ))}
+            {movie.genres &&
+              movie.genres.map((genre) => (
+                <Chip
+                  key={genre.id}
+                  label={genre.name}
+                  className={classes.chip}
+                />
+              ))}
           </div>
           <Typography variant="h6" className={classes.subtitle}>
             Production Companies
           </Typography>
           <div>
-            {movie.production_companies.map((company) => (
-              <Chip
-                key={company.id}
-                label={company.name}
-                className={classes.chip}
-              />
-            ))}
+            {movie.production_companies &&
+              movie.production_companies.map((company) => (
+                <Chip
+                  key={company.id}
+                  label={company.name}
+                  className={classes.chip}
+                />
+              ))}
           </div>
           <Typography variant="h6" className={classes.subtitle}>
             Homepage
