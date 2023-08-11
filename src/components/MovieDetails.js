@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMovieDetails } from "../redux/moviesSlice";
 import { useParams } from "react-router-dom";
-import { Card, CardContent, Typography, Chip, Link } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { CircularProgress } from "@material-ui/core";
+import { Card, CardContent, Typography, Chip, Link } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { CircularProgress } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   root: {

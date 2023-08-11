@@ -10,9 +10,9 @@ import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import { setCurrentPage } from "../redux/moviesSlice";
 import { useMediaQuery } from "@mui/material";
-import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { blueGrey } from "@material-ui/core/colors";
+import { Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { blueGrey } from "@mui/material/colors";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles({
@@ -98,7 +98,7 @@ const PopularMoviesList = () => {
                       aria-label={`info about ${movie.title}`}
                       component={Link}
                       to={`/movies/${movie.id}`}
-                    >
+                      size="large">
                       <InfoIcon />
                     </IconButton>
                   }
