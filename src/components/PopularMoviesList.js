@@ -11,19 +11,8 @@ import Pagination from "@mui/material/Pagination";
 import { setCurrentPage } from "../redux/moviesSlice";
 import { useMediaQuery } from "@mui/material";
 import { Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import { blueGrey } from "@mui/material/colors";
 import CircularProgress from "@mui/material/CircularProgress";
-
-const useStyles = makeStyles({
-  header: {
-    textAlign: "center",
-    fontSize: "1.5rem",
-    color: blueGrey[900],
-    fontWeight: "bold",
-    margin: "10px 0",
-  },
-});
 
 const PopularMoviesList = () => {
   const currentPage = useSelector((state) => state.movies.currentPage);
@@ -31,7 +20,6 @@ const PopularMoviesList = () => {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isMedium = useMediaQuery("(max-width: 960px)");
-  const classes = useStyles();
   const status = useSelector((state) => state.movies.status);
 
   useEffect(() => {
@@ -43,8 +31,17 @@ const PopularMoviesList = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h2" className={classes.header}>
+    <div style={{ marginTop: "84px" }}>
+      <Typography
+        variant="h2"
+        sx={{
+          textAlign: "center",
+          fontSize: "1.5rem",
+          color: blueGrey[900],
+          fontWeight: "bold",
+          margin: "10px 0",
+        }}
+      >
         Most Popular Movies
       </Typography>
 
@@ -98,7 +95,8 @@ const PopularMoviesList = () => {
                       aria-label={`info about ${movie.title}`}
                       component={Link}
                       to={`/movies/${movie.id}`}
-                      size="large">
+                      size="large"
+                    >
                       <InfoIcon />
                     </IconButton>
                   }
